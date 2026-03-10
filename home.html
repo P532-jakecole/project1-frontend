@@ -185,17 +185,40 @@
         console.log(object);
 
         const tableBody = document.querySelector("#holdingTable tbody");
+        const rows = tableBody.rows;
 
-        const row = document.createElement("tr");
+        found = false;
 
-        row.innerHTML = `
-        <td>${object.name}</td>
-        <td>${object.quantity}</td>
-        <td>${object.price}</td>
-        <td>${object.value}</td>
-    `;
+        for(let i = 0; i < rows.length; i++){
+            let name = rows[i].cells[0].textContent;
+            if(name === object.name){
+                if(object.quantity == 0){
+                    tableBody.deleteRow(i);
+                    break;
+                }else{
+                    tableBody.rows[i].cells[1].textContent = object.quantity.toFixed(3);
+                    tableBody.rows[i].cells[2].textContent = object.price.toFixed(3);
+                    tableBody.rows[i].cells[3].textContent = object.value.toFixed(3);
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if(!found){
+            const row = document.createElement("tr");
 
-        tableBody.appendChild(row);
+            row.innerHTML = `
+            <td>${object.name}</td>
+            <td>${object.quantity}</td>
+            <td>${object.price}</td>
+            <td>${object.value}</td>
+        `;
+            tableBody.appendChild(row);
+        }
+
+
+
+
     }
 
     function subHolding(object){
@@ -207,10 +230,7 @@
 
         for(let i = 0; i < rows.length; i++){
             let name = rows[i].cells[0].textContent;
-            console.log(name);
-            console.log(object.name);
             if(name === object.name){
-                console.log("True");
                 if(object.quantity == 0){
                     tableBody.deleteRow(i);
                     break;
