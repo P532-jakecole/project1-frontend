@@ -102,7 +102,7 @@
     let stompClient = null;
 
     function connect() {
-        const socket = new SockJS('/ws');
+        const socket = new SockJS(host + '/ws');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function(frame) {
